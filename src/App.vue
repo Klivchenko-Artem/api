@@ -24,7 +24,7 @@ export default {
         this.posts = response.data.data;
       })
       .catch((error) => {
-        console.error('Ошибка при получении данных:', error);
+        console.error('Ошибка:', error);
       });
   }
 };
