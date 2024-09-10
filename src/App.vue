@@ -1,11 +1,6 @@
 <template>
   <div>
-    <header>
-      <nav>
-        <router-link to="/posts">Посты</router-link>
-      </nav>
-    </header>
-    
+
     <router-view />
   </div>
 </template>
@@ -19,14 +14,5 @@ export default {
 </script>
 
 <style scoped>
-nav {
-  background-color: #333;
-  padding: 1rem;
-}
 
-nav a {
-  color: white;
-  text-decoration: none;
-  margin-right: 1rem;
-}
 </style>
