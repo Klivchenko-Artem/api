@@ -1,37 +1,32 @@
 <template>
   <div>
-    <PostsList :posts="posts" />
+    <header>
+      <nav>
+        <router-link to="/posts">Посты</router-link>
+      </nav>
+    </header>
+    
+    <router-view />
   </div>
 </template>
 
 <script>
-import axiosInstance from './components/axios/axios'; 
-import PostsList from './components/UI/PostList.vue'; 
+import router from './components/router/router';
 
 export default {
-  components: {
-    PostsList 
-  },
-  data() {
-    return {
-      posts: [] 
-    };
-  },
-  mounted() {
-    axiosInstance
-      .get('/posts')
-      .then((response) => {
-        this.posts = response.data.data;
-      })
-      .catch((error) => {
-        console.error('Ошибка:', error);
-      });
-  }
+  router
 };
 </script>
 
 <style scoped>
-h1 {
-  text-align: center;
+nav {
+  background-color: #333;
+  padding: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 1rem;
 }
 </style>
