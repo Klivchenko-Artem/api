@@ -21,9 +21,9 @@ export default {
     login() {
       try {
         this.$store.dispatch("login", { username: this.username, password: this.password });
-        this.$router.push("/posts"); // Перенаправляем на список постов после входа
+        this.$router.push("/posts");
       } catch (error) {
-        alert(error.message); // Показываем сообщение об ошибке
+        alert(error.message);
       }
     },
   },

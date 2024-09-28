@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  props: ["id"], // ID поста для редактирования (при создании отсутствует)
+  props: ["id"],
   data() {
     return {
       title: "",
@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     isEditing() {
-      return !!this.id; // Если есть ID, это редактирование
+      return !!this.id;
     },
   },
   methods: {
@@ -35,11 +35,11 @@ export default {
 
       try {
         if (this.isEditing) {
-          await this.$store.dispatch("editPost", postData); // Редактирование поста
+          await this.$store.dispatch("editPost", postData);
         } else {
-          await this.$store.dispatch("createPost", postData); // Создание нового поста
+          await this.$store.dispatch("createPost", postData);
         }
-        this.$router.push("/posts"); // Переход к списку постов после действия
+        this.$router.push("/posts");
       } catch (error) {
         alert("Ошибка при сохранении поста: " + (error.response ? error.response.data : error.message));
       }

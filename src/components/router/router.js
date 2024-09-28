@@ -1,10 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
-import PostList from "../UI/PostList.vue"; // Путь к PostList.vue в папке UI
-import CreatePost from "../UI/CreatePost.vue"; // Путь к CreatePost.vue в папке UI
-import UserLogin from "../UI/UserLogin.vue"; // Путь к UserLogin.vue в папке UI
-import UserRegister from "../UI/UserRegister.vue"; // Путь к UserRegister.vue в папке UI
-import store from "../store"; // Vuex Store
+import PostList from "../UI/PostList.vue";
+import CreatePost from "../UI/CreatePost.vue";
+import UserLogin from "../UI/UserLogin.vue";
+import UserRegister from "../UI/UserRegister.vue";
+import store from "../store"; 
 
 Vue.use(Router);
 

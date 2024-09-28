@@ -3,15 +3,14 @@ import axios from "axios";
 const token = localStorage.getItem("token");
 
 const axiosInstance = axios.create({
-  baseURL: "http://vseverske.ru/blog/api", // Убедись, что базовый URL правильный
-  timeout: 5000, // Увеличенный тайм-аут до 5 секунд
+  baseURL: "http://vseverske.ru/blog/api",
+  timeout: 5000,
   headers: {
     "Content-Type": "application/json",
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
   },
 });
 
-// Логирование ошибок
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {

@@ -21,9 +21,9 @@ export default {
     register() {
       try {
         this.$store.dispatch("register", { username: this.username, password: this.password });
-        this.$router.push("/posts"); // После регистрации перенаправляем на список постов
+        this.$router.push("/posts");
       } catch (error) {
-        alert(error.message); // Показываем сообщение об ошибке
+        alert(error.message);
       }
     },
   },

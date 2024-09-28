@@ -29,10 +29,10 @@ export default {
   },
   methods: {
     confirm() {
-      this.$emit("confirm"); // Эмитим событие подтверждения
+      this.$emit("confirm");
     },
     cancel() {
-      this.$emit("cancel"); // Эмитим событие отмены
+      this.$emit("cancel");
     },
   },
 };

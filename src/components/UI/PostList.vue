@@ -1,17 +1,15 @@
 <template>
   <div>
-    <!-- Кнопка для создания поста -->
+
     <div v-if="isAuthenticated">
       <button @click="createNewPost">Создать пост</button>
     </div>
 
-    <!-- Список постов -->
     <div v-if="posts.length > 0">
       <div v-for="post in posts" :key="post.id">
         <h2>{{ post.title }}</h2>
         <p>{{ post.description }}</p>
 
-        <!-- Если пользователь авторизован, показываем кнопки редактирования и удаления -->
         <div v-if="isAuthenticated">
           <button @click="editPost(post.id)">Редактировать</button>
           <button @click="openDeleteModal(post.id)">Удалить</button>
@@ -22,7 +20,6 @@
       <p>Нет постов для отображения</p>
     </div>
 
-    <!-- Модалка для подтверждения удаления -->
     <ConfirmModal
       v-if="showModal"
       :isVisible="showModal"
@@ -35,7 +32,7 @@
 </template>
 
 <script>
-import ConfirmModal from "../ConfirmModal.vue"; // Модалка для подтверждения удаления
+import ConfirmModal from "../ConfirmModal.vue";
 
 export default {
   components: {
@@ -43,39 +40,39 @@ export default {
   },
   data() {
     return {
-      showModal: false, // Управление модалкой
-      postIdToDelete: null, // Идентификатор поста для удаления
+      showModal: false,
+      postIdToDelete: null,
     };
   },
   computed: {
     posts() {
-      return this.$store.getters.posts; // Получаем посты из Vuex Store
+      return this.$store.getters.posts;
     },
     isAuthenticated() {
-      return this.$store.getters.isAuthenticated; // Проверяем авторизацию
+      return this.$store.getters.isAuthenticated;
     },
   },
   methods: {
     editPost(id) {
-      this.$router.push({ name: "EditPost", params: { id } }); // Переход на редактирование поста
+      this.$router.push({ name: "EditPost", params: { id } });
     },
     createNewPost() {
-      this.$router.push({ name: "CreatePost" }); // Переход на создание поста
+      this.$router.push({ name: "CreatePost" });
     },
     openDeleteModal(postId) {
-      this.postIdToDelete = postId; // Устанавливаем ID поста для удаления
-      this.showModal = true; // Открываем модалку
+      this.postIdToDelete = postId;
+      this.showModal = true;
     },
     confirmDeletePost() {
-      this.$store.dispatch("deletePost", this.postIdToDelete); // Удаление поста
-      this.closeModal(); // Закрываем модалку
+      this.$store.dispatch("deletePost", this.postIdToDelete);
+      this.closeModal();
     },
     closeModal() {
-      this.showModal = false; // Закрываем модалку
+      this.showModal = false;
     },
   },
   created() {
-    this.$store.dispatch("fetchPosts"); // Загружаем посты при создании компонента
+    this.$store.dispatch("fetchPosts");
   },
 };
 </script>

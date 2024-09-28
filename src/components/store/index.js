@@ -1,23 +1,23 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from "../axios/axios"; // Подключаем axios для работы с сервером
+import axios from "../axios/axios";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: JSON.parse(localStorage.getItem("user")) || null, // Текущий пользователь
-    token: localStorage.getItem("token") || null, // Токен текущего пользователя
-    posts: [], // Храним посты
+    user: JSON.parse(localStorage.getItem("user")) || null,
+    token: localStorage.getItem("token") || null,
+    posts: [],
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
-      localStorage.setItem("user", JSON.stringify(user)); // Сохраняем текущего пользователя
+      localStorage.setItem("user", JSON.stringify(user));
     },
     setToken(state, token) {
       state.token = token;
-      localStorage.setItem("token", token); // Сохраняем токен
+      localStorage.setItem("token", token);
     },
     clearAuthData(state) {
       state.user = null;
@@ -26,28 +26,24 @@ export default new Vuex.Store({
       localStorage.removeItem("token");
     },
     setPosts(state, posts) {
-      state.posts = posts; // Устанавливаем посты в состояние Vuex
+      state.posts = posts;
     },
   },
   actions: {
     register({ commit }, registrationData) {
       const { username, password } = registrationData;
 
-      // Загружаем список пользователей из localStorage
       let users = JSON.parse(localStorage.getItem("users")) || [];
 
-      // Проверяем, есть ли уже такой пользователь
       const existingUser = users.find((user) => user.username === username);
       if (existingUser) {
         throw new Error("Пользователь с таким именем уже существует");
       }
 
-      // Создаем нового пользователя и добавляем в массив пользователей
       const newUser = { username, password };
       users.push(newUser);
-      localStorage.setItem("users", JSON.stringify(users)); // Сохраняем всех пользователей
+      localStorage.setItem("users", JSON.stringify(users)); 
 
-      // Логируем пользователя после регистрации
       const token = "fake-jwt-token";
       commit("setUser", newUser);
       commit("setToken", token);
@@ -56,10 +52,8 @@ export default new Vuex.Store({
     login({ commit }, loginData) {
       const { username, password } = loginData;
 
-      // Загружаем список пользователей из localStorage
       const users = JSON.parse(localStorage.getItem("users")) || [];
 
-      // Ищем пользователя с введенными данными
       const storedUser = users.find(
         (user) => user.username === username && user.password === password
       );
@@ -74,14 +68,14 @@ export default new Vuex.Store({
     },
 
     logout({ commit }) {
-      commit("clearAuthData"); // Очищаем данные пользователя и токен
+      commit("clearAuthData");
     },
 
-    // Логика для загрузки постов с сервера
+
     async fetchPosts({ commit }) {
       try {
-        const response = await axios.get("/posts"); // Запрос к API для получения постов
-        commit("setPosts", response.data.data); // Сохраняем посты в Vuex Store
+        const response = await axios.get("/posts"); 
+        commit("setPosts", response.data.data);
       } catch (error) {
         console.error(
           "Ошибка при загрузке постов:",
@@ -92,10 +86,10 @@ export default new Vuex.Store({
   },
   getters: {
     isAuthenticated(state) {
-      return !!state.token; // Проверка, авторизован ли пользователь
+      return !!state.token;
     },
     posts(state) {
-      return state.posts; // Возвращаем список постов из Vuex
+      return state.posts;
     },
   },
 });

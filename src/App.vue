@@ -1,19 +1,19 @@
 <template>
   <div>
-    <HeaderReg />  <!-- Подключаем HeaderReg вместо Header -->
-    <router-view />  <!-- Здесь рендерятся страницы -->
+    <HeaderReg />  
+    <router-view />  
   </div>
 </template>
 
 <script>
-import HeaderReg from './components/HeaderReg.vue';  // Импортируем компонент HeaderReg
+import HeaderReg from './components/HeaderReg.vue';  
 
 export default {
   components: {
-    HeaderReg,  // Регистрируем HeaderReg
+    HeaderReg,  
   },
   created() {
-    this.$store.dispatch('autoLogin');  // Автоматическая проверка на авторизацию
+    this.$store.dispatch('autoLogin');  
   },
 };
 </script>
