@@ -1,55 +1,81 @@
 <template>
   <div>
-    <h2>Список постов</h2>
-    <ul>
-      <li v-for="post in posts" :key="post.id" class="post-item">
-        <router-link :to="'/post/' + post.id">{{ post.title }}</router-link>
-      </li>
-    </ul>
+    <!-- Кнопка для создания поста -->
+    <div v-if="isAuthenticated">
+      <button @click="createNewPost">Создать пост</button>
+    </div>
+
+    <!-- Список постов -->
+    <div v-if="posts.length > 0">
+      <div v-for="post in posts" :key="post.id">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.description }}</p>
+
+        <!-- Если пользователь авторизован, показываем кнопки редактирования и удаления -->
+        <div v-if="isAuthenticated">
+          <button @click="editPost(post.id)">Редактировать</button>
+          <button @click="openDeleteModal(post.id)">Удалить</button>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <p>Нет постов для отображения</p>
+    </div>
+
+    <!-- Модалка для подтверждения удаления -->
+    <ConfirmModal
+      v-if="showModal"
+      :isVisible="showModal"
+      title="Удаление поста"
+      message="Вы уверены, что хотите удалить этот пост?"
+      @confirm="confirmDeletePost"
+      @cancel="closeModal"
+    />
   </div>
 </template>
 
 <script>
-import axios from '../axios/axios';
+import ConfirmModal from "../ConfirmModal.vue"; // Модалка для подтверждения удаления
 
 export default {
+  components: {
+    ConfirmModal,
+  },
   data() {
     return {
-      posts: []
+      showModal: false, // Управление модалкой
+      postIdToDelete: null, // Идентификатор поста для удаления
     };
   },
-  mounted() {
-    axios.get('/posts')
-      .then(response => {
-        console.log(response.data);
-        this.posts = response.data.data;
-      })
-      .catch(error => {
-        console.error('Ошибка:', error);
-      });
-  }
+  computed: {
+    posts() {
+      return this.$store.getters.posts; // Получаем посты из Vuex Store
+    },
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated; // Проверяем авторизацию
+    },
+  },
+  methods: {
+    editPost(id) {
+      this.$router.push({ name: "EditPost", params: { id } }); // Переход на редактирование поста
+    },
+    createNewPost() {
+      this.$router.push({ name: "CreatePost" }); // Переход на создание поста
+    },
+    openDeleteModal(postId) {
+      this.postIdToDelete = postId; // Устанавливаем ID поста для удаления
+      this.showModal = true; // Открываем модалку
+    },
+    confirmDeletePost() {
+      this.$store.dispatch("deletePost", this.postIdToDelete); // Удаление поста
+      this.closeModal(); // Закрываем модалку
+    },
+    closeModal() {
+      this.showModal = false; // Закрываем модалку
+    },
+  },
+  created() {
+    this.$store.dispatch("fetchPosts"); // Загружаем посты при создании компонента
+  },
 };
 </script>
-
-<style scoped>
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.post-item {
-  padding: 10px;
-  background-color: #848484;
-  margin-bottom: 10px;
-  border-radius: 4px;
-}
-
-a {
-  text-decoration: none;
-  color: #001020;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-</style>
